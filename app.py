@@ -39,7 +39,7 @@ def generate_image_from_prompt(prompt):
             response = requests.get(operation_location, headers=headers)
             status = response.json()['status']
 
-        print(response.json())
+
         # Get the results
         image_url = response.json()['result']['data'][0]['url']
 
@@ -67,13 +67,18 @@ def generate_prompt(value):
         temperature=0.7,
         max_tokens=120,
         messages=[
-            {"role": "system", "content": "You are an expert at generating DallE prompts"},
+            {"role": "system", "content": "You are an expert at generating DallE prompts from user input"},
             {"role": "user", "content": value}
         ]
     )
 
-    print(response.choices[0].message.content)
-
+    # print(response.choices[0].message.content)
+    # dcc.Input(
+    #     id="basic-prompt-input",
+    #     type="text",
+    #     placeholder= print(response.choices[0].message.content),
+    #     size="100",
+    # ),
 
     prompt = response.choices[0].message.content
 
@@ -91,6 +96,7 @@ app.layout = html.Div([
         size="100",
     ),
     html.Button('Submit', id='submit-button', n_clicks=0),
+
     html.Div(id='image-generation-output',
              children=''),
     html.Img(id="generated-image")
